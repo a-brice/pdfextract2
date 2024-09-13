@@ -9,7 +9,7 @@ function putRects(obj){
         let contentCoords = box.getBoundingClientRect();
         let newrect = document.createElement('div');
         newrect.classList.add('rect-box');
-        newrect.innerHTML = `<span class="label-span" ${!showLabelRect ? 'style="display: none"' : ''}>${obj[i].label}, ${obj[i].type}</span>`
+        newrect.innerHTML = `<span class="label-span" ${!showLabelRect ? 'style="display: none"' : ''}>${obj[i].label}</span>`
         newrect.style.cssText = `
             position: absolute;
             left: ${obj[i].bbox[0]}px;
@@ -21,7 +21,6 @@ function putRects(obj){
         `
         newrect.setAttribute('label', obj[i].label);
         newrect.setAttribute('page', obj[i].page);
-        newrect.setAttribute('type', obj[i].type);
         newrect.setAttribute('bbox', JSON.stringify(obj[i].bbox));
         nb_rects++;
         clickOnRect(newrect);

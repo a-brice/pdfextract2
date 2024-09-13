@@ -11,7 +11,6 @@ var rect, contentCoords;
 let originPoint = [];
 let coordX = 0;
 let coordY = 0;
-let typeBtn = ['#r-text', '#r-dig', '#r-box'];
 
 
 pen.addEventListener('click', () => {
@@ -55,12 +54,11 @@ box.addEventListener('mousedown', (e) => {
     nb_clicks++;
     if (nb_clicks % 2 != 0){
         // let x = e.clientX, y = e.clientY;
-        let type = document.querySelector('input[name="type"]:checked').value;
         follows = true;
         nb_rects++;
         rect = document.createElement('div');
         rect.classList.add('rect-box');
-        rect.innerHTML = `<span class="label-span" ${showLabelRect ? '': 'style="display: none"'}>${nb_rects}; ${type}</span>`
+        rect.innerHTML = `<span class="label-span" ${showLabelRect ? '': 'style="display: none"'}>${nb_rects}</span>`
         rect.style.cssText = setOriginRect(coordX, coordY);
         box.appendChild(rect);
         rect.setAttribute('label', nb_rects);
@@ -68,16 +66,10 @@ box.addEventListener('mousedown', (e) => {
 
     } else {    // When the second click append, the rect is handled one last time
         setRectBbox();
-        setRectType();
         clickOnRect(rect);
         follows = false;
     }
 })
-
-typeBtn.forEach(btn => {
-    document.querySelector(btn).addEventListener('click', setRectType);
-})
-
 
 function clickOnRect(Rect){
     Rect.onclick = (e) => { 
@@ -86,26 +78,23 @@ function clickOnRect(Rect){
         if (!activateDrawing && !activateDrop){
             rect = e.target;
             boxnameInput.value = rect.getAttribute('label');
-            if (rect.getAttribute('type') == 'Box'){
-                document.querySelector('input#r-box').checked = true;
-            } else if (rect.getAttribute('type') == 'Digit') {
-                document.querySelector('input#r-dig').checked = true;
-            } else {
-                document.querySelector('input#r-text').checked = true;
-            }
         }              
     } 
 
 }
 
 
+function roundNumber(x, decimal=2){
+    return Math.round(x * 10**decimal) / 10**decimal; 
+}
+
 function setRectBbox(){
     const currentRectCoords = rect.getBoundingClientRect();
     contentCoords           = box.getBoundingClientRect();
-    const x0 = Math.round(currentRectCoords.left - contentCoords.left);
-    const x1 = Math.round(currentRectCoords.left - contentCoords.left + currentRectCoords.width);
-    const y0 = Math.round(currentRectCoords.top - contentCoords.top);
-    const y1 = Math.round(currentRectCoords.top - contentCoords.top + currentRectCoords.height);
+    const x0 = roundNumber(currentRectCoords.left - contentCoords.left);
+    const x1 = roundNumber(currentRectCoords.left - contentCoords.left + currentRectCoords.width);
+    const y0 = roundNumber(currentRectCoords.top - contentCoords.top);
+    const y1 = roundNumber(currentRectCoords.top - contentCoords.top + currentRectCoords.height);
     rect.setAttribute('bbox', `[${x0}, ${y0}, ${x1}, ${y1}]`);
     rect.setAttribute('page', currPage);
 }
@@ -118,12 +107,6 @@ function setOriginRect(x, y){
         left: ${x}px;
         border: 2px red dashed;
     `
-}
-
-function setRectType(){
-    let type = document.querySelector('input[name="type"]:checked').value;
-    rect.setAttribute('type', type);
-    rect.querySelector('.label-span').textContent = rect.getAttribute('label') + ';' + type;
 }
 
 
@@ -146,7 +129,7 @@ function drawRectangle(){
 boxnameInput.addEventListener('input', (e) => {
     if (rect !== undefined){
         rect.setAttribute('label', e.target.value);
-        rect.querySelector('.label-span').textContent = e.target.value + ';' + rect.getAttribute('type');
+        rect.querySelector('.label-span').textContent = e.target.value;
     }
 })
 

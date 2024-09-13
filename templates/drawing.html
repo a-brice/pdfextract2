@@ -37,18 +37,12 @@
                     </div>
                     <hr>
                     <div class="field">
-                        <label for="_1toN">1 for N pages </label>
-                        <label class="custom-checkbox">
-                            <input name="1toN" id="_1toN" type="checkbox">
-                            <span class="checkmark"></span>
-                          </label>
-                    </div>
-                    <div class="field">
-                        <label for="pageN">On n° page </label>
-                        <div class="number-control">
-                            <div class="number-left"></div>
-                            <input type="number" name="pageN" id="pageN" value="1" class="number-quantity">
-                            <div class="number-right"></div>
+                        <span>Import config </span>
+                        <div class="import-zone">
+                            <label for="json" class="lbl-icon">
+                                <img src="{{url_for('static', filename='img/upload-solid.svg')}}" alt="import">
+                            </label>
+                            <input type="file" name="json" id="json" accept=".json">
                         </div>
                     </div>
                 </form>
@@ -66,14 +60,6 @@
                             <label for="box-name" class="lbl-name">Box name :</label>
                             <input type="text" name="box-name" id="box-name">
                         </div>
-                        <div class="radio-btn-div">
-                            <input type="radio" name="type" value="Text" id="r-text" checked>
-                            <label for="r-text">Text</label>
-                            <input type="radio" name="type" value="Digit" id="r-dig">
-                            <label for="r-dig">Digit</label>
-                            <input type="radio" name="type" value="Box" id="r-box">
-                            <label for="r-box">Box</label>
-                        </div>
                     </div>
                     <div class="tools">
                         <img src="{{url_for('static', filename='img/pen-nib-solid.svg')}}" class="icon pen" alt="pencil">
@@ -88,13 +74,7 @@
                         <img src="{{url_for('get_media', sess_id=sess_id)}}" class="pdf" alt="pdf">
                     </div>
                 </div>
-            </div>
-            <div class="import-zone">
-                <label for="json" class="lbl-icon">
-                    <img src="{{url_for('static', filename='img/upload-solid.svg')}}" alt="import">
-                </label>
-                <input type="file" name="json" id="json" accept=".json">
-            </div>
+            </div>            
         </div>
         
 
@@ -129,12 +109,8 @@
         let nextBtn = document.querySelector('.cont');
         nextBtn.onclick = () => {
             let drawing = getDrawing();
-            let _1toN = document.querySelector('#_1toN').checked;
-            let pageN = parseInt(document.querySelector('#pageN').value) - 1;
             let config = {
                 dpi: dpi,
-                _1toN: _1toN,
-                _1toNonPage: pageN,
                 drawing: drawing
             }
             req = fetch(urlSave, {

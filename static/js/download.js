@@ -9,8 +9,7 @@ function getDrawing(){
         let attrs = {
             label:e.getAttribute('label'),
             bbox:e.getAttribute('bbox'),
-            page:e.getAttribute('page'),
-            type:e.getAttribute('type')
+            page:e.getAttribute('page')        
         }
         rectPos.push(attrs);
     })
@@ -20,12 +19,8 @@ function getDrawing(){
 
 dload.onclick = () => {
     let drawing = getDrawing();
-    let _1toN = document.querySelector('#_1toN').checked;
-    let pageN = parseInt(document.querySelector('#pageN').value) - 1;
     let config = {
         dpi: dpi,
-        _1toN: _1toN,
-        _1toNonPage: pageN,
         drawing: drawing
     }
 
