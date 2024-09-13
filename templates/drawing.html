@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/drawing.css')}}">
+    <title>Document extractor</title>
+</head>
+
+<body>
+    <h1>Create the drawing : Define zones to extract</h1>
+    <div class="container">
+        <div>
+            <div class="btn-div">
+                <div class="more">
+                    <img src="{{url_for('static', filename='img/ellipsis-vertical-solid.svg')}}" class="more-icon" alt="more">
+                    <span class="more-txt">More options</span>
+                </div>
+                <button class="cont">Suivant</button>
+            </div>
+            <div class="adv-opt hide">
+                <form method="post" class="adv">
+                    <div class="field">
+                        <label for="dpi">DPI</label>
+                        <div class="number-control">
+                            <div class="number-left"></div>
+                            <input type="number" name="dpi" step="5" value="{{dpi}}" class="number-quantity">
+                            <div class="number-right"></div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <button type="button" class="set-dpi">
+                            <img src="{{url_for('static', filename='img/refresh.svg')}}" alt="refresh">
+                            Set DPI
+                        </button>
+                    </div>
+                    <hr>
+                    <div class="field">
+                        <label for="_1toN">1 for N pages </label>
+                        <label class="custom-checkbox">
+                            <input name="1toN" id="_1toN" type="checkbox">
+                            <span class="checkmark"></span>
+                          </label>
+                    </div>
+                    <div class="field">
+                        <label for="pageN">On n° page </label>
+                        <div class="number-control">
+                            <div class="number-left"></div>
+                            <input type="number" name="pageN" id="pageN" value="1" class="number-quantity">
+                            <div class="number-right"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="frame">
+                <div class="toolbar">
+                    <nav class="pages">
+                        <img src="{{url_for('static', filename='img/chevron-right-solid.svg')}}" class="icon arrow-left prev" alt="arrow">
+                        <input type="text" id="no_page" value="1">
+                        <div class="nb_page"> / {{max_page}}</div>
+                        <img src="{{url_for('static', filename='img/chevron-right-solid.svg')}}" class="icon next" alt="arrow">
+                    </nav>
+                    <div class="middle-nav">
+                        <div>
+                            <label for="box-name" class="lbl-name">Box name :</label>
+                            <input type="text" name="box-name" id="box-name">
+                        </div>
+                        <div class="radio-btn-div">
+                            <input type="radio" name="type" value="Text" id="r-text" checked>
+                            <label for="r-text">Text</label>
+                            <input type="radio" name="type" value="Digit" id="r-dig">
+                            <label for="r-dig">Digit</label>
+                            <input type="radio" name="type" value="Box" id="r-box">
+                            <label for="r-box">Box</label>
+                        </div>
+                    </div>
+                    <div class="tools">
+                        <img src="{{url_for('static', filename='img/pen-nib-solid.svg')}}" class="icon pen" alt="pencil">
+                        <img src="{{url_for('static', filename='img/trash_can_icon_198505.svg')}}" class="icon can" alt="can">
+                        <img src="{{url_for('static', filename='img/eye_icon-icons.com_71204.svg')}}" class="icon eye hide" alt="eye show">
+                        <img src="{{url_for('static', filename='img/eye-blocked-icons.com_70973.svg')}}" class="icon eye" alt="eye hide">
+                        <img src="{{url_for('static', filename='img/download-solid.svg')}}" class="icon download" alt="download">
+                    </div>
+                </div>
+                <div id="shadow-box">
+                    <div id="content-box">
+                        <img src="{{url_for('get_media', sess_id=sess_id)}}" class="pdf" alt="pdf">
+                    </div>
+                </div>
+            </div>
+            <div class="import-zone">
+                <label for="json" class="lbl-icon">
+                    <img src="{{url_for('static', filename='img/upload-solid.svg')}}" alt="import">
+                </label>
+                <input type="file" name="json" id="json" accept=".json">
+            </div>
+        </div>
+        
+
+    </div>
+
+    <script>
+        let pdf = document.querySelector('img.pdf');
+        let maxPage = {{max_page}};
+        let currPage = {{page}};
+        let sess_id = "{{sess_id}}";
+        let dpi = {{dpi}};
+        let leftArrow = document.querySelector('.icon.prev');
+        let rightArrow = document.querySelector('.icon.next');
+        let noPageInput = document.querySelector('#no_page');
+        let urlSave = '{{url_for("save_drawing", sess_id=sess_id)}}';
+        let urlDload = '{{url_for("download_drawing", sess_id=sess_id)}}';
+    </script>
+    <script src="{{url_for('static', filename='js/handleEyeIcon.js')}}"></script>
+    <script src="{{url_for('static', filename='js/handlePages.js')}}"></script>
+    <script src="{{url_for('static', filename='js/draw.js')}}"></script>
+    <script src="{{url_for('static', filename='js/download.js')}}"></script>
+    <script src="{{url_for('static', filename='js/importDrawing.js')}}"></script>
+    <script src="{{url_for('static', filename='js/dpiChange.js')}}"></script>
+    <script>
+        let advSecBtn = document.querySelector('.more');
+        let advSec = document.querySelector('.adv-opt');
+        advSecBtn.addEventListener('click', () => {
+            advSec.classList.toggle('hide');
+        })
+    </script>
+    <script>
+        let nextBtn = document.querySelector('.cont');
+        nextBtn.onclick = () => {
+            let drawing = getDrawing();
+            let _1toN = document.querySelector('#_1toN').checked;
+            let pageN = parseInt(document.querySelector('#pageN').value) - 1;
+            let config = {
+                dpi: dpi,
+                _1toN: _1toN,
+                _1toNonPage: pageN,
+                drawing: drawing
+            }
+            req = fetch(urlSave, {
+                method: 'POST',
+                headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+                body: JSON.stringify(config)
+            }).then(res => {
+                if (res.ok)
+                    location.href = '{{url_for("get_test_pdf", sess_id=sess_id)}}';
+            })
+
+        }
+
+    </script>
+</body>
+
+</html>

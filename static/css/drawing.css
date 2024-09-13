@@ -1,0 +1,404 @@
+body{
+    margin: 0;
+    padding: 0;
+    margin-bottom: 200px;
+}
+
+h1{
+    text-align: center;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+}
+
+.frame{
+    box-shadow: 2px 2px 5px gray;
+}
+
+#shadow-box{
+    padding: 10px 30px;
+    background-color: #515151;
+}
+
+.toolbar{
+    height: 100px;
+    background-color: #212121;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 70px;
+}
+
+.pages, .tools{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tools{
+    gap: 1.5em;
+}
+
+.lbl-name{
+    color: white;
+    font: 1em serif;
+    margin-right: 10px;
+}
+
+.label-span{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: red;
+    font: bold 0.8em serif;
+}
+
+#box-name{
+    width: 40px;
+}
+
+.nb_page{
+    margin-left: 10px;
+    color: white;
+    font-size: 1em;
+}
+
+.icon{
+    width: 22px;
+    height: 22px;
+    padding: 8px;
+}
+
+.icon:hover, .active-icon{
+    background-color: rgba(240, 248, 255, 0.495);
+    border-radius: 10px;
+}
+
+.arrow-left{
+    transform: rotate(180deg);
+}
+
+.icon.eye.hide{
+    display: none;
+}
+
+input#no_page{
+    background: gray;
+    outline: none;
+    height: 25px;
+    width: 18px;
+    font: 1em times;
+    color: white;
+    text-align: center;
+}
+
+#content-box{
+    position: relative;
+    box-shadow: 10px 4px 7px #3f3f3f;
+}
+
+
+#content-box.ch-cursor{
+    cursor: crosshair;
+}
+
+.btn-div{
+    display: flex;
+    justify-content: space-between;
+}
+
+.more{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    cursor: pointer;
+}
+
+
+.more-icon{
+    height: 30px;
+    border-radius: 30px;
+    padding: 10px 20px;
+}
+
+.more-txt{
+    font: bold 1.5em Roboto;
+}
+
+.more:hover .more-icon{
+    background-color: #eee;
+}
+
+.more:hover .more-txt{
+    text-decoration: underline;
+}
+
+.adv-opt{
+    margin: 50px
+}
+
+.adv-opt.hide{
+    display: none;
+}
+
+.adv{
+    width: 400px;
+    padding: 30px;
+    box-shadow: 2px 1px 6px #515151;
+}
+
+.adv label{
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.adv hr{
+    margin: 20px 0;
+}
+
+.adv-opt .field{
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button.cont{
+    font: 1.5em bold serif;
+    background: none;
+    border: 3px solid gray;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.middle-nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+}
+
+.radio-btn-div input{
+    display: none;
+}
+
+.radio-btn-div {
+    display: flex;
+}
+
+.radio-btn-div label{
+    padding: 8px 12px;
+    color: white;
+    border: 1px gray solid;
+    margin: none;
+    display: block;
+}
+
+.radio-btn-div input:checked + label{
+    background-color: #3d2b63;
+}
+
+.radio-btn-div label[for='r-text']{
+    border-radius:  5px 0 0 5px;
+}
+
+.radio-btn-div label[for='r-dig']{
+    border-left: 0;
+    border-right: 0;
+}
+
+.radio-btn-div label[for='r-box']{
+    border-radius: 0 5px 5px 0;
+}
+
+div.import-zone{
+    margin-top: 20px;
+    display: flex;
+    border: 1px gray solid;
+    width: 200px;
+}
+
+.lbl-icon{
+    border-right: 1px gray solid;
+    background-color: #eee;
+    padding: 8px;
+}
+
+.lbl-icon img{
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+#json{
+    display: block;
+    align-self: center;
+    margin: auto;
+    margin-left: 10px;
+}
+
+#json::-webkit-file-upload-button{
+    display: none;
+}
+
+
+/* Component */ 
+
+/* From Uiverse.io by KhaledMatalkah */ 
+.custom-checkbox {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    font-size: 16px;
+    color: #333;
+    transition: color 0.3s;
+  }
+  
+  .custom-checkbox input[type="checkbox"] {
+    display: none;
+  }
+  
+  .custom-checkbox .checkmark {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+    transform-style: preserve-3d;
+  }
+  
+  .custom-checkbox .checkmark::before {
+    content: "\2713";
+    font-size: 16px;
+    color: transparent;
+    transition: color 0.3s, transform 0.3s;
+  }
+  
+  .custom-checkbox input[type="checkbox"]:checked + .checkmark {
+    background-color: #333;
+    border-color: #333;
+    transform: scale(1.1) rotateZ(360deg) rotateY(360deg);
+  }
+  
+  .custom-checkbox input[type="checkbox"]:checked + .checkmark::before {
+    color: #fff;
+  }
+  
+  .custom-checkbox:hover {
+    color: #666;
+  }
+  
+  .custom-checkbox:hover .checkmark {
+    border-color: #666;
+    background-color: #f0f0f0;
+    transform: scale(1.05);
+  }
+  
+  .custom-checkbox input[type="checkbox"]:focus + .checkmark {
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.2);
+    outline: none;
+  }
+  
+  .custom-checkbox .checkmark,
+  .custom-checkbox input[type="checkbox"]:checked + .checkmark {
+    transition: background-color 1.3s, border-color 1.3s, color 1.3s, transform 0.3s;
+  }
+  
+
+  /* From Uiverse.io by Cybercom682 */ 
+.number-control {
+    display: flex;
+    align-items: center;
+  }
+  
+  .number-left::before,
+  .number-right::after {
+    content: attr(data-content);
+    background-color: #333333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    width: 20px;
+    height: 23px;
+    color: white;
+    transition: background-color 0.3s;
+    cursor: pointer;
+  }
+  
+  .number-left::before {
+    content: "-";
+  }
+  
+  .number-right::after {
+    content: "+";
+  }
+  
+  .number-quantity {
+    padding: 0.25rem;
+    border: 0;
+    width: 50px;
+    -moz-appearance: textfield;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    outline: none;
+  }
+  
+  .number-left:hover::before,
+  .number-right:hover::after {
+    background-color: #666666;
+  }
+  
+  /* From Uiverse.io by JaydipPrajapati1910 */ 
+.set-dpi {
+    color: white;
+    background-color: #222;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    line-height: 2rem;
+    padding: 5px 10px;
+    cursor: pointer;
+    text-align: center;
+    display: inline-flex;
+    margin-left: auto;
+    gap: 10px;
+    align-items: center;
+    border: none;
+  }
+
+  
+  
+  .set-dpi:hover {
+    background-color: #333;
+  }
+  
+  .set-dpi img {
+    display: inline;
+    width: 1rem;
+    height: 1rem;
+    color: white;
+  }
+  
+  .set-dpi:focus img {
+    animation: spin_357 0.5s linear;
+  }
+  
+  @keyframes spin_357 {
+    from {
+      transform: rotate(0deg);
+    }
+  
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
