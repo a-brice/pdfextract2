@@ -188,7 +188,6 @@ def extraction():
     
     sess_id = request.form.get('sess_id')
     upload_folder = os.path.join(app.config['DRAWING_FOLDER'], str(sess_id))
-    template_dir = os.path.join(upload_folder, 'template_pdf')
     testdir = os.path.join(upload_folder, 'test_pdf')
     
     if not os.path.exists(testdir):
@@ -196,12 +195,9 @@ def extraction():
 
     with open(os.path.join(upload_folder, 'drawing.json'), 'r', encoding='utf-8') as json_file:
         config = json.load(json_file)
-        dpi = config['dpi']
         pages = set([x['page'] for x in config['drawing']])
-        drawing = config['drawing']
 
     all_pdf_infos = {}
-    dirnames = {}
 
     for file in request.files.getlist('pdfs[]'):
         filename = secure_filename(file.filename)
@@ -241,12 +237,10 @@ def process_files():
         config = json.load(json_file)
         dpi = config['dpi']
         config['drawing'] = utils.occurence_dict(config['drawing'])
-        drawing = config['drawing']
     
     
     # save all files in directory containing their name and convert them to images
     all_pdf_infos = {}
-    dirnames = {}
 
     for file in test_files:
         filename = secure_filename(file.filename)
