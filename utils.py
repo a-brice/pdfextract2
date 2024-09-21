@@ -2,7 +2,9 @@ import fitz
 import numpy as np
 import os
 from PIL import Image
-
+import time
+import logging
+import pathlib
 
 def convert_to_img(template_dir, filename, dpi=180, page_to_convert=None):
 
@@ -32,7 +34,17 @@ def convert_to_img(template_dir, filename, dpi=180, page_to_convert=None):
 
 
 def extract_box(path, config):
+    os.makedirs('logs', exist_ok=True)
+    logging.basicConfig(
+        filename=f'logs/extration-{pathlib.Path(path).stem}-{time.time():.0f}.log', 
+        style="{",
+        datefmt="%Y-%m-%d %H:%M:%S",
+        format="{asctime} - {levelname} - {message}",
+        level=logging.INFO
+    )
+    
     doc = fitz.open(path)
+    logging.info(f"Document loaded | path = {path} -> starting extraction")
     drawing = config['drawing']
     dpi = config['dpi']
     baseDPI = 72.0
@@ -42,6 +54,14 @@ def extract_box(path, config):
     for no_page in range(doc.page_count):
         page = doc[no_page]
         infos = {}
+
+        # Logging info 
+        progress = no_page / doc.page_count
+        coef = doc.page_count // 50
+        if doc.page_count >= 100 and no_page % (doc.page_count // coef) == 0:
+            logging.info(f'In progress : {progress:.3%} done')
+
+
         for i in range(len(drawing)):
             try:
                 box = (np.array(drawing[i]['bbox']) / zoom).tolist()
@@ -50,7 +70,10 @@ def extract_box(path, config):
                 infos[drawing[i]['label']] = info
             except:
                 infos[drawing[i]['label']] = 'EXCEPTION ERROR'
+                logging.warning(f"Exception raised in page n°{no_page} for label:{drawing[i]['label']}!")
         all_infos.append(infos)
+    
+    logging.info(f"End of extraction")
 
     return all_infos
 
