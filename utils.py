@@ -36,11 +36,14 @@ def convert_to_img(template_dir, filename, dpi=180, page_to_convert=None):
 def extract_box(path, config):
     os.makedirs('logs', exist_ok=True)
     logging.basicConfig(
-        filename=f'logs/extration-{pathlib.Path(path).stem}-{time.time():.0f}.log', 
         style="{",
         datefmt="%Y-%m-%d %H:%M:%S",
         format="{asctime} - {levelname} - {message}",
-        level=logging.INFO
+        level=logging.INFO,
+        handlers=[
+            logging.FileHandler(f'logs/extration-{pathlib.Path(path).stem}-{time.time():.0f}.log'),
+            logging.StreamHandler()
+        ]
     )
     
     doc = fitz.open(path)
